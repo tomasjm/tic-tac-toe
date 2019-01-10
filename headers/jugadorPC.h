@@ -1,7 +1,8 @@
 
 void jugar();
 
-int primeraJugada();
+void primeraJugada();
+
 int bloquear();
 
 int intentarGanar();

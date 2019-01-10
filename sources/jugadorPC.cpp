@@ -4,10 +4,19 @@
 #include <string.h>
 
 int jugadas = 0;
-
+/*
+* Nombre de la funcion: jugar.
+* Tipo de funcion: void
+* Parametros: -
+* Dato de retorno: no retorna.
+* Descripcion: Es la funcion principal de la computadora, es la que determina que acciones se tomarán
+*              según el turno del juego. Es la función que establece un orden "lógico" de las jugadas
+*              basadas en la estrategia planteada anteriormente.
+*              
+*              
+*/
 void jugar()
 {
-    printf("\nJUGADAS: %d", jugadas);
     if (jugadas == 0)
     {
         primeraJugada();
@@ -20,23 +29,42 @@ void jugar()
         }
     }
 }
-
-int primeraJugada()
+/*
+* Nombre de la funcion: primeraJugada.
+* Tipo de funcion: void.
+* Parametros: -
+* Dato de retorno: no retorna.
+* Descripcion: Esta funcion es la encargada de determinar la primera jugada de la computadora:
+*              - Como el centro es la casilla más fuerte, si es que esta no está ocupada, la ocupará.
+*              - Si el centro está ocupado, jugará en [0][0].
+*              
+*/
+void primeraJugada()
 {
     if (tablero[1][1] == '-')
     {
         tablero[1][1] = 'O';
         jugadas++;
-        printf("CASO 1.1\n");
     }
     else if (tablero[0][0] == '-')
     {
         tablero[0][0] = 'O';
         jugadas++;
-        printf("CASO 1.2\n");
     }
-    return 1;
 }
+
+/*
+* Nombre de la funcion: bloquear.
+* Tipo de funcion: int
+* Parametros: -
+* Dato de retorno: 0 o 1, enteros.
+* Descripcion: Esta funcion está encargada de buscar las jugadas de amenaza del jugador, es decir,
+*              aquellas jugadas en una casilla especifica que pueden ganar la partida, por lo tanto, 
+*              al encontrarlas, las bloqueará jugando en aquella casilla.
+*              Si bloquea alguna, devolverá un 1.
+*              Si no bloquea, devuelve un 0.
+*/
+
 int bloquear()
 {
     // VAMOS A COMPROBAR FILA POR FILA DE ARRIBA HACIA ABAJO
@@ -102,6 +130,7 @@ int bloquear()
     }
 
     // Diagonales
+    // Siguen la misma logica que las anteriores, si el contador llega a 2, buscará algun lugar para bloquear
     int conteoD1 = 0;
     for (int i = 0; i < 3; i++)
     {
