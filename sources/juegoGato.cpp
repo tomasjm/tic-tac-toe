@@ -2,6 +2,7 @@
 #include "../headers/jugadorPC.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 //Variables
 char tablero[3][3] = {
@@ -22,22 +23,34 @@ char tablero[3][3] = {
 */
 void iniciarUnJugador()
 {
-    printf("\n\nModo de juego: Un jugador \n\n");
     int turno = 0;
     imprimirTablero();
-    printf("\n\nIngresa con el formato fila,columna \n\n");
+    printf("\n\nModo de juego: Un jugador \n\n");
+    printf("Ingresa con el formato fila,columna \n\n");
     while (turno < 9)
     {
         if (turno % 2 == 0)
         {
             int fila;
             int columna;
-            printf("Jugador X, ingrese su jugada:\n");
-            scanf("%d,%d", &fila, &columna);
+            int error = 0;
+            do
+            {
+                if (error != 0)
+                {
+                    imprimirTablero();
+                    printf("Error! Ingresa algo dentro del rango: 1,1-3,3\n\n");
+                }
+                printf("Jugador X (humano), ingrese su jugada:\n");
+                error++;
+
+                scanf("%d,%d", &fila, &columna);
+            } while (fila > 3 || fila < 1 || columna > 3 || columna < 1);
             if (tablero[fila - 1][columna - 1] == '-')
             {
                 turno++;
                 tablero[fila - 1][columna - 1] = 'X';
+                imprimirTablero();
             }
             else
             {
@@ -58,6 +71,11 @@ void iniciarUnJugador()
             break;
         }
     }
+    char ganador = comprobarGanador();
+    if (turno == 9 && ganador == '-')
+    {
+        printf("Empate\n");
+    }
 }
 
 /*
@@ -74,23 +92,33 @@ void iniciarUnJugador()
 */
 void iniciarDosJugadores()
 {
-    printf("\n\nModo de juego: Dos jugadores \n\n");
     int turno = 0;
     imprimirTablero();
-    printf("\n\nIngresa con el formato fila,columna \n\n");
+    printf("\n\nModo de juego: Dos jugadores \n\n");
+    printf("Ingresa con el formato fila,columna \n\n");
     while (turno < 9)
     {
         int fila;
         int columna;
-        if (turno % 2 != 0)
+        int error = 0;
+        do
         {
-            printf("Juega O:\n");
-        }
-        else
-        {
-            printf("Juega X:\n");
-        }
-        scanf("%d,%d", &fila, &columna);
+            if (error != 0)
+            {
+                imprimirTablero();
+                printf("Error! Ingresa algo dentro del rango: 1,1-3,3\n\n");
+            }
+            error++;
+            if (turno % 2 != 0)
+            {
+                printf("Jugador O, ingrese su jugada:\n");
+            }
+            else
+            {
+                printf("Jugador X, ingrese su jugada:\n");
+            }
+            scanf("%d,%d", &fila, &columna);
+        } while (fila > 3 || fila < 1 || columna > 3 || columna < 1);
         if (tablero[fila - 1][columna - 1] == '-')
         {
             if (turno % 2 != 0)
@@ -108,7 +136,7 @@ void iniciarDosJugadores()
         else
         {
             imprimirTablero();
-            printf("No puedes jugar ahi! Intentalo denuevo\n");
+            printf("No puedes jugar ahi! Intentalo denuevo\n\n");
         }
         char ganador = comprobarGanador();
         if (ganador != '-')
@@ -134,6 +162,7 @@ void iniciarDosJugadores()
 */
 void imprimirTablero()
 {
+    system("clear");
     printf("\n");
     for (int i = 0; i < 3; i++)
     {

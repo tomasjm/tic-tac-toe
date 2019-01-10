@@ -2,6 +2,8 @@
 #include "../headers/juegoGato.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 
 int jugadas = 0;
 /*
@@ -17,15 +19,22 @@ int jugadas = 0;
 */
 void jugar()
 {
+    printf("Computadora pensando...\n");
     if (jugadas == 0)
     {
         primeraJugada();
     }
     else if (jugadas != 0) //significa que el X jugó 2 veces ya y podria ganar ante un mal movimiento
     {
-        if (bloquear() != 1)
+        if (ganar() != 1)
         {
-            printf("dale pelotudo juga bien");
+            if (bloquear() != 1)
+            {
+                if (jugarAleatorio() != 1)
+                {
+                    printf("\nCASO DESCONOCIDO\n");
+                }
+            }
         }
     }
 }
@@ -41,14 +50,50 @@ void jugar()
 */
 void primeraJugada()
 {
+    // Si el centro está disponible, jugará ahi.
     if (tablero[1][1] == '-')
     {
         tablero[1][1] = 'O';
         jugadas++;
     }
-    else if (tablero[0][0] == '-')
+    // Si el centro no está disponible, jugará en CUALQUIERA de las 4 ESQUINAS.
+    else
     {
-        tablero[0][0] = 'O';
+
+        /*
+            Se usará la funcion rand que nos devuelve un numero aleatorio dentro de un rango.
+            Eso si, esta funcion utiliza un seed, que en su documentacion indica que es utilizada
+            para generar la aleatoriedad en su algoritmo, es decir, bajo un mismo seed, generará el mismo numero,
+            es por eso que si llamamos a rand() directamente, nos enviará el mismo numero en cada ejecucion.
+            Para establecer el seed, se llama a la funcion srand y se le pasa en un parametro, por convenio,
+            los programadores utilizan la funcion time(0) que nos devuelve el tiempo del sistema en segundos, en cambio,
+            si no se coloca el 0, nos devuelve el tiempo con un formato de puntero, es decir, como parametro se le deberia
+            entregar un puntero.
+        */
+        srand(time(0)); // SEED DE ALEATORIEDAD QUE REQUIERE LA FUNCION RAND()
+        /*
+            Tambien rand funciona en rangos: rand() % 100 funciona en rangos de 0-99, es decir, rangos de 100 elementos.
+            Si quieres correr este rango, le sumas o restas una cantidad definida.
+            EJ: rand() % 100 + 1: utiliza rango 1-100.
+            Por eso se utiliza aca abajo rand() % 4 + 1: rango 1-4 que enumeran las 4 esquinas existentes.
+        */
+        int esquina = rand() % 4 + 1;
+        switch (esquina)
+        {
+        case 1:
+            tablero[0][0] = 'O';
+            break;
+        case 2:
+            tablero[0][2] = 'O';
+            break;
+        case 3:
+            tablero[2][0] = '0';
+            break;
+        case 4:
+            tablero[2][2] = 'O';
+            break;
+        }
+
         jugadas++;
     }
 }
@@ -174,5 +219,140 @@ int bloquear()
             }
         }
     }
+    return 0;
+}
+
+int ganar()
+{
+    // filas
+    for (int i = 0; i < 3; i++)
+    {
+        int contadorJugPC = 0;
+        for (int j = 0; j < 3; j++)
+        {
+            if (tablero[i][j] == 'O')
+            {
+                contadorJugPC++;
+            }
+            else if (tablero[i][j] == 'X')
+            {
+                contadorJugPC = -100;
+            }
+            if (j == 2 && contadorJugPC == 2)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    if (tablero[i][k] == '-')
+                    {
+                        tablero[i][k] = 'O';
+                        jugadas++;
+                        return 1;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // columnas
+    for (int i = 0; i < 3; i++)
+    {
+        int contadorJugPC = 0;
+        for (int j = 0; j < 3; j++)
+        {
+            if (tablero[j][i] == 'O')
+            {
+                contadorJugPC++;
+            }
+            else if (tablero[j][i] == 'X')
+            {
+                contadorJugPC = -100;
+            }
+            if (j == 2 && contadorJugPC == 2)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    if (tablero[k][i] == '-')
+                    {
+                        tablero[k][i] = 'O';
+                        jugadas++;
+                        return 1;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    // diagonales
+    int conteoJugD1 = 0;
+    for (int i = 0; i < 3; i++)
+    {
+        if (tablero[i][i] == 'O')
+        {
+            conteoJugD1++;
+        }
+        else if (tablero[i][i] == 'X')
+        {
+            conteoJugD1 = -100;
+        }
+        if (i == 2 && conteoJugD1 == 2)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                if (tablero[k][k] == '-')
+                {
+                    tablero[k][k] = 'O';
+                    jugadas++;
+                    return 1;
+                    break;
+                }
+            }
+        }
+    }
+    int conteoJugD2 = 0;
+    for (int i = 0; i < 3; i++)
+    {
+        if (tablero[2 - i][i] == 'O')
+        {
+            conteoJugD2++;
+        }
+        else if (tablero[2 - i][i] == 'X')
+        {
+            conteoJugD2 = -100;
+        }
+        if (i == 2 && conteoJugD2 == 2)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                if (tablero[2 - k][k] == '-')
+                {
+                    tablero[2 - k][k] = 'O';
+                    jugadas++;
+                    return 1;
+                    break;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+int jugarAleatorio()
+{
+    bool jugado = false;
+    do
+    {
+        srand(time(0));
+        int fila = rand() % 3;
+        srand(time(0));
+        int columna = rand() % 3;
+        if (tablero[fila][columna] == '-')
+        {
+            tablero[fila][columna] = 'O';
+            jugado = true;
+            jugadas++;
+            return 1;
+        }
+    } while (!jugado);
     return 0;
 }

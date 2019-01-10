@@ -5,4 +5,6 @@ void primeraJugada();
 
 int bloquear();
 
-int intentarGanar();
+int ganar();
+
+int jugarAleatorio();

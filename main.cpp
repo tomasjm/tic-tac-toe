@@ -4,6 +4,16 @@
 #include "headers/juegoGato.h"
 #include "headers/jugadorPC.h"
 
+/* ----------------------------------------
+        ATENCION ATENCION ATENCION
+   ----------------------------------------
+
+   El programa utiliza una funcion limpiarPantalla() que se encuentra en
+   los archivos de interfazUsuario, en caso de por alguna razon, durante la
+   ejecucion del programa no se limpie la pantalla y aparezca un error, por favor
+   seguir las instrucciones que se dejaron en la funcion limpiarPantalla() en el archivo cpp.     
+*/
+
 /*
 * Nombre de la funcion: main.
 * Tipo de funcion: int
@@ -17,6 +27,7 @@
 */
 int main()
 {
+    limpiarPantalla();
     imprimirBienvenida();
     imprimirMenuPrincipal();
     bool estado = true;
@@ -34,6 +45,8 @@ int main()
             iniciarDosJugadores();
             break;
         default:
+            limpiarPantalla();
+            imprimirMenuPrincipal();
             imprimirOpcionInvalida();
             break;
         }

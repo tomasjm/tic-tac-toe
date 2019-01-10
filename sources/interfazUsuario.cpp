@@ -1,5 +1,6 @@
 #include "../headers/interfazUsuario.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 /*
 * Nombre de la funcion: imprimirBienvenida.
@@ -47,7 +48,7 @@ void imprimirMenuPrincipal()
 */
 void imprimirOpcionInvalida()
 {
-    printf("Selecciona una opcion valida por favor\n");
+    printf("\nSelecciona una opcion valida por favor\n");
 }
 /*
 * Nombre de la funcion: pedirOpcion.
@@ -63,4 +64,15 @@ int pedirOpcion()
     int opc;
     scanf("%d", &opc);
     return opc;
+}
+
+void limpiarPantalla()
+{
+    /*
+        CLEAR: LINUX
+        CLS: WINDOWS
+        EN CASO DE QUE NO FUNCIONE, COMENTAR AMBAS LINEAS POR FAVOR
+    */
+    system("clear");
+    //system("cls");
 }
