@@ -2,6 +2,7 @@
 
 #include "headers/interfazUsuario.h"
 #include "headers/juegoGato.h"
+#include "headers/jugadorPC.h"
 
 int main()
 {

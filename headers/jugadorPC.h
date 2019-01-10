@@ -1,7 +1,2 @@
-class IA
-{
-  public:
-    IA();
-    void analizarJugada();
-    void jugar();
-};
+
+void jugar();

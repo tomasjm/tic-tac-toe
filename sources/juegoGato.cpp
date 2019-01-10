@@ -1,22 +1,46 @@
 #include "../headers/juegoGato.h"
+#include "../headers/jugadorPC.h"
 #include <stdio.h>
 #include <string.h>
 
 //Variables
-int tipo_juego = 0; // 0: ninguno 1: un jugador 2: dos jugadores
 char tablero[3][3] = {
     {'-', '-', '-'}, {'-', '-', '-'}, {'-', '-', '-'}};
-
 // Implementaciones
 void iniciarUnJugador()
 {
-    tipo_juego = 1;
     printf("\n\nModo de juego: Un jugador \n\n");
+    int turno = 0;
     imprimirTablero();
+    while (turno < 9)
+    {
+        if (turno % 2 == 0)
+        {
+            int fila;
+            int columna;
+            printf("Juegas tu, como X:\n");
+            scanf("%d,%d", &fila, &columna);
+            if (tablero[fila - 1][columna - 1] == '-')
+            {
+                turno++;
+                tablero[fila - 1][columna - 1] = 'X';
+            }
+            else
+            {
+                imprimirTablero();
+                printf("No puedes jugar ahi! Selecciona otra posicion\n\n");
+            }
+        }
+        else
+        {
+            jugar();
+            turno++;
+            imprimirTablero();
+        }
+    }
 }
 void iniciarDosJugadores()
 {
-    tipo_juego = 2;
     printf("\n\nModo de juego: Dos jugadores \n\n");
     int turno = 0;
     imprimirTablero();
