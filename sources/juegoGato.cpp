@@ -37,6 +37,14 @@ void iniciarUnJugador()
             turno++;
             imprimirTablero();
         }
+        char ganador = comprobarGanador();
+        printf("GANADOR: %c\n", ganador);
+        printf("TURNO: %d\n", turno);
+        if (ganador != '-')
+        {
+            printf("Gano %c\n", ganador);
+            break;
+        }
     }
 }
 void iniciarDosJugadores()
@@ -178,7 +186,7 @@ char comprobarGanador()
             break;
         }
     }
-    // diagonales
+    //diagonales
     if (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2] && tablero[0][0] != '-')
     {
         return tablero[0][0];
