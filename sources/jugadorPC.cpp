@@ -1,3 +1,28 @@
+/* 
+* Explicacion Lógica del juego de la computadora.
+* 
+* La computadora seguirá un algoritmo bastante simple.
+* Caso primera jugada dos opciones ordenadas por importancia:
+* 1) Jugar en el centro si es que está disponible.
+* 2) Jugar en cualquier esquina.
+* Si la primera no se cumple, pues, jugará en alguna esquina.
+*
+* Llegando a la segunda jugada del PC, significa que el enemigo ya jugó 2 veces, puesto que
+* el enemigo siempre comenzará a jugar, por lo tanto,
+* para la segunda y el resto de jugadas, seguira los siguientes pasos por importancia:
+* 1) Ganar
+* 2) Bloquear jugada enemiga
+* 3) Jugar en cualquier casilla disponible
+* Acá pasa lo mismo, si no se puede ganar, buscará alguna forma de bloquear alguna casilla amenazadora.
+* Si no puede ganar, ni bloquear, jugará en cualquier casilla para generar más jugadas de éxito.
+*
+* Estos pasos seguirá hasta el final de la partida, de esta manera el algoritmo solo debería ganar
+* o empatar, no debería perder.
+*
+* En cada función se explicó un poco más detallado que validaciones se realizan
+* para ejecutar los pasos anteriormente mencionados
+*/
+
 #include "../headers/jugadorPC.h"
 #include "../headers/juegoGato.h"
 #include <stdio.h>
@@ -5,7 +30,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-int jugadas = 0;
+int jugadas = 0; // Variable utilizada para diferenciar la primera jugada de las otras a por venir.
+
 /*
 * Nombre de la funcion: jugar.
 * Tipo de funcion: void
@@ -19,20 +45,22 @@ int jugadas = 0;
 */
 void jugar()
 {
+    // En algunas jugadas, debido a la aleatoriedad se genera una pequeña demora,
+    // por lo tanto para evitar confusión, se imprime este mensaje.
     printf("Computadora pensando...\n");
-    if (jugadas == 0)
+    if (jugadas == 0) // en caso de que sea la primera jugada del PC.
     {
-        primeraJugada();
+        primeraJugada(); // se ejecuta la primera jugada del PC.
     }
-    else if (jugadas != 0) //significa que el X jugó 2 veces ya y podria ganar ante un mal movimiento
+    else if (jugadas != 0) //significa que el X jugó 2 veces ya y este podria ganarnos ante un mal movimiento
     {
-        if (ganar() != 1)
+        if (ganar() != 1) // Si tenemos la posibilidad de ganar, pues, ganamos
         {
-            if (bloquear() != 1)
+            if (bloquear() != 1) // Si no tuvimos la posibilidad de ganar, pues, bloqueamos al otro jugador.
             {
-                if (jugarAleatorio() != 1)
+                if (jugarAleatorio() != 1) // Si no podemos hacer ninguna de las anteriores, se juega aleatoriamente.
                 {
-                    printf("\nCASO DESCONOCIDO\n");
+                    printf("\nCASO DESCONOCIDO\n"); // no se deberia llegar a este print
                 }
             }
         }
@@ -116,10 +144,10 @@ int bloquear()
     for (int i = 0; i < 3; i++)
     {
         /*
-                    Se seguira esta logica:
-                    - Contamos fila por fila, si en una fila encontramos al menos 2 jugadas de X, tendremos 2 posibilidades,
-                    que el X gane en la siguiente jugada o que nosotros hayamos jugado antes y este no pueda ganar.
-                */
+        Se seguira esta logica:
+        Contamos fila por fila, si en una fila encontramos al menos 2 jugadas de X, tendremos 2 posibilidades,
+        que el X gane en la siguiente jugada o que nosotros hayamos jugado antes y este no pueda ganar.
+        */
         int conteoJugadaEnemiga = 0; // Este es el contador, si dentro de una fila llegamos a encontrar 2 jugadas, verificaremos que haya un espacio vacio y jugaremos ahi.
         for (int j = 0; j < 3; j++)
         {
@@ -147,10 +175,10 @@ int bloquear()
     for (int i = 0; i < 3; i++)
     {
         /*
-                    Se seguira esta logica:
-                    - Contamos columna por columna, si en una columna encontramos al menos 2 jugadas de X, tendremos 2 posibilidades,
-                    que el X gane en la siguiente jugada o que nosotros hayamos jugado antes y este no pueda ganar.
-                */
+          Se seguira esta logica:
+          - Contamos columna por columna, si en una columna encontramos al menos 2 jugadas de X, tendremos 2 posibilidades,
+            que el X gane en la siguiente jugada o que nosotros hayamos jugado antes y este no pueda ganar.
+        */
         int conteoJugadaEnemiga = 0; // Este es el contador, si dentro de una columna llegamos a encontrar 2 jugadas, verificaremos que haya un espacio vacio y jugaremos ahi.
         for (int j = 0; j < 3; j++)
         {
@@ -222,28 +250,59 @@ int bloquear()
     return 0;
 }
 
+/*
+* Nombre de la funcion: ganar.
+* Tipo de funcion: int
+* Parametros: -
+* Dato de retorno: 0 o 1, enteros.
+* Descripcion: En esta funcion evaluamos ciertas condiciones para realizar una jugada ganadora,
+*              sigue una logica bastante simple, pues, si se tiene la posibilidad de ganar, obviamente,
+*              realizará la jugada ganadora y finalizará la partida.
+*              En caso de que juegue, devolverá un 1 y significa que la partida finalizó con la victoria.
+*              De caso contrario, devolverá un 0.
+*/
 int ganar()
 {
+    /*
+        La logica que sigue este proceso es muy similar al del proceso de bloquear,
+        en este caso, se busca por fila, columna y diagonales si es que se han jugado 2 veces.
+        Claro está que hay un inconveniente, y es que si hay al menos 1 jugada enemiga, significa
+        que ya no podremos ganar en esta fila, columna o diagonal.
+        Por lo tanto el proceso es así, cada jugada del PC vale 1 punto, cada jugada enemiga vale -100 puntos absolutos.
+        Si se llega a 2 puntos, es por que podemos ganar ya que el caracter '-' no se considera como nada.
+        Estos puntos se separan por filas, columnas y diagonales.
+
+        Es decir si tenemos una fila: O | - | O : significa que tenemos 2 puntos y podemos ganar.
+        Si tenemos: O | - | - : tenemos 1 punto y no podemos ganar.
+        SI tenemos X | O | O : tendremos -100 puntos y no podremos ganar.
+    */
     // filas
     for (int i = 0; i < 3; i++)
     {
+        // iniciamos el contador
         int contadorJugPC = 0;
         for (int j = 0; j < 3; j++)
         {
+            // si encontramos la jugada O, sumamos un punto.
             if (tablero[i][j] == 'O')
             {
                 contadorJugPC++;
             }
+            // si encontramos una jugada X, tendremos -100
             else if (tablero[i][j] == 'X')
             {
                 contadorJugPC = -100;
             }
+            // Si finalizamos la evaluacion y tenemos 2 puntos, significa que podremos ganar.
             if (j == 2 && contadorJugPC == 2)
             {
+                // Buscamos en la misma fila la casilla que permite ganar la partida
                 for (int k = 0; k < 3; k++)
                 {
+                    // Se encuentra dicha casilla
                     if (tablero[i][k] == '-')
                     {
+                        // jugamos y ganamos
                         tablero[i][k] = 'O';
                         jugadas++;
                         return 1;
@@ -255,6 +314,8 @@ int ganar()
     }
 
     // columnas
+
+    /* Sigue la misma logica pero para las columnas */
     for (int i = 0; i < 3; i++)
     {
         int contadorJugPC = 0;
@@ -284,6 +345,7 @@ int ganar()
         }
     }
     // diagonales
+    /* misma logica anterior */
     int conteoJugD1 = 0;
     for (int i = 0; i < 3; i++)
     {
@@ -337,22 +399,34 @@ int ganar()
     return 0;
 }
 
+/*
+* Nombre de la funcion: bloquear.
+* Tipo de funcion: int
+* Parametros: -
+* Dato de retorno: 0 o 1, enteros.
+* Descripcion:  Esta funcion se ejecuta cuando el programa no puede ganar ni bloquear alguna jugada enemiga.
+*               Las 2 opciones anteriormente mencionadas son las mejores jugadas disponibles, pero al no haber
+*               ninguna, pues, se realiza una jugada aleatoria en cualquiera de las casillas disponibles restantes.
+*               Como se genera la fila y columna por aleatoriedad, se puede demorar en jugar en alguna casilla, sobre todo
+*               si hay pocas disponibles.
+*/
 int jugarAleatorio()
 {
-    bool jugado = false;
+    bool jugado = false; // validacion para entrar en un loop
     do
     {
-        srand(time(0));
+        srand(time(0)); // aplicamos seed
         int fila = rand() % 3;
-        srand(time(0));
+        srand(time(0)); // renovamos la seed para que no salga el mismo numero, sin embargo, se pueden repetir
         int columna = rand() % 3;
+        // Si la casilla aleatoria está disponible, se juega.
         if (tablero[fila][columna] == '-')
         {
             tablero[fila][columna] = 'O';
-            jugado = true;
+            jugado = true; // se sale del loop
             jugadas++;
             return 1;
         }
-    } while (!jugado);
+    } while (!jugado); //mientras no haya jugado, seguirá generando posibles jugadas.
     return 0;
 }

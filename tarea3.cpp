@@ -1,5 +1,29 @@
-#include <stdio.h>
+/* Universidad de La Frontera
+* Ingeniería Civil Electrónica
+*
+* ICC-202 PROGRAMACION DE COMPUTADORES
+*
+* Tarea 3
+*
+* Autor: 
+* Tomás Jiménez. (t.jimenez03@ufromail.cl)
+*
+*
+* Fecha: 11/01/2019
+*
+* Juego tic-tac-toe
+* Este programa representa al juego tic-tac-toe o también llamado gato, cuenta con dos modalidades
+* para poder jugar, las cuales son el modo de un jugador y dos jugadores.
+* En el caso de un jugador, pues, juega un usuario contra la computadora, en este caso, la computadora
+* sigue un algoritmo simple pero efectivo, donde practicamente no podrás ganarle.
+* En el caso de dos jugadores, pueden jugar dos jugadores valga la redundancia, los dos jugadores tendrán
+* turnos alternos para no producir una doble jugada.
+* Siempre comenzará a jugar X en ambos casos, donde X representa al usuario en el caso de la modalidad
+* de un jugador.
+* Solo se puede jugar una partida por ejecución.
+*/
 
+#include <stdio.h>
 #include "headers/interfazUsuario.h"
 #include "headers/juegoGato.h"
 #include "headers/jugadorPC.h"

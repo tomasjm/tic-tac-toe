@@ -65,7 +65,16 @@ int pedirOpcion()
     scanf("%d", &opc);
     return opc;
 }
-
+/*
+* Nombre de la funcion: limpiarPantalla.
+* Tipo de funcion: void
+* Parametros: -
+* Dato de retorno: no retorna.
+* Descripcion: Esta funcion se encarga de limpiar la pantalla ejecutando un comando especifico
+*              para linux o para windows, en caso de no funcionar por algun motivo, por favor,
+*              comentar ambas lineas de la función.
+*              
+*/
 void limpiarPantalla()
 {
     /*
