@@ -35,7 +35,7 @@ int jugadas = 0; // Variable utilizada para diferenciar la primera jugada de las
 /*
 * Nombre de la funcion: jugar.
 * Tipo de funcion: void
-* Parametros: -
+* Parametros: no tiene
 * Dato de retorno: no retorna.
 * Descripcion: Es la funcion principal de la computadora, es la que determina que acciones se tomarán
 *              según el turno del juego. Es la función que establece un orden "lógico" de las jugadas
@@ -69,7 +69,7 @@ void jugar()
 /*
 * Nombre de la funcion: primeraJugada.
 * Tipo de funcion: void.
-* Parametros: -
+* Parametros: no tiene
 * Dato de retorno: no retorna.
 * Descripcion: Esta funcion es la encargada de determinar la primera jugada de la computadora:
 *              - Como el centro es la casilla más fuerte, si es que esta no está ocupada, la ocupará.
@@ -129,7 +129,7 @@ void primeraJugada()
 /*
 * Nombre de la funcion: bloquear.
 * Tipo de funcion: int
-* Parametros: -
+* Parametros: no tiene
 * Dato de retorno: 0 o 1, enteros.
 * Descripcion: Esta funcion está encargada de buscar las jugadas de amenaza del jugador, es decir,
 *              aquellas jugadas en una casilla especifica que pueden ganar la partida, por lo tanto, 
@@ -253,7 +253,7 @@ int bloquear()
 /*
 * Nombre de la funcion: ganar.
 * Tipo de funcion: int
-* Parametros: -
+* Parametros: no tiene
 * Dato de retorno: 0 o 1, enteros.
 * Descripcion: En esta funcion evaluamos ciertas condiciones para realizar una jugada ganadora,
 *              sigue una logica bastante simple, pues, si se tiene la posibilidad de ganar, obviamente,
@@ -402,7 +402,7 @@ int ganar()
 /*
 * Nombre de la funcion: bloquear.
 * Tipo de funcion: int
-* Parametros: -
+* Parametros: no tiene
 * Dato de retorno: 0 o 1, enteros.
 * Descripcion:  Esta funcion se ejecuta cuando el programa no puede ganar ni bloquear alguna jugada enemiga.
 *               Las 2 opciones anteriormente mencionadas son las mejores jugadas disponibles, pero al no haber

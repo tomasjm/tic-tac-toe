@@ -12,7 +12,7 @@ char tablero[3][3] = {
 /*
 * Nombre de la funcion: iniciarUnJugador.
 * Tipo de funcion: void
-* Parametros: -
+* Parametros: no tiene
 * Dato de retorno: no retorna.
 * Descripcion: Esta funcion es la encargada de iniciar el juego de un jugador
 *              alternando las jugadas de acuerdo al transcurso de la partida, practicamente es
@@ -81,7 +81,7 @@ void iniciarUnJugador()
 /*
 * Nombre de la funcion: iniciarDosJugadores.
 * Tipo de funcion: void
-* Parametros: -
+* Parametros: no tiene
 * Dato de retorno: no retorna.
 * Descripcion: Esta funcion es la encargada de iniciar el juego de dos jugadores
 *              alternando las jugadas de acuerdo al transcurso de la partida, practicamente es
@@ -154,7 +154,7 @@ void iniciarDosJugadores()
 /*
 * Nombre de la funcion: imprimirTablero.
 * Tipo de funcion: void
-* Parametros: -
+* Parametros: no tiene
 * Dato de retorno: no retorna.
 * Descripcion: Funcion sencilla encargada de por pantalla el tablero con el diseño
 *              adecuado y jugadas respectivas cada vez que sea llamada.
@@ -187,7 +187,7 @@ void imprimirTablero()
 /*
 * Nombre de la funcion: comprobarGanador.
 * Tipo de funcion: char
-* Parametros: -
+* Parametros: no tiene
 * Dato de retorno: 'X', 'O', '-'.
 * Descripcion: Esta funcion es la encargada de determinar al ganador y retornarlo.
 *              Cada vez que es llamada evalua filas, columnas y diagonales para encontrar
